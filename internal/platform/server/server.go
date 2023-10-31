@@ -1,6 +1,7 @@
 package server
 
 import (
+	"celestina/internal/platform/server/handler/forward"
 	"celestina/internal/platform/server/handler/health"
 	"fmt"
 	"log"
@@ -30,4 +31,7 @@ func (s *Server) Run() error {
 
 func (s *Server) registerRoutes() {
 	s.engine.GET("/health", health.CheckHandler())
+
+	forwardCtr := forward.New(nil)
+	s.engine.POST("/forward/:eventid", forwardCtr.PostHandler())
 }
