@@ -10,14 +10,16 @@ import (
 )
 
 type Server struct {
-	httpAddr string
-	engine   *gin.Engine
+	httpAddr      string
+	engine        *gin.Engine
+	subscriptions map[string][]string
 }
 
-func New(host string, port uint) Server {
+func New(host string, port int, subscriptions map[string][]string) Server {
 	srv := Server{
-		engine:   gin.New(),
-		httpAddr: fmt.Sprintf("%s:%d", host, port),
+		engine:        gin.New(),
+		httpAddr:      fmt.Sprintf("%s:%d", host, port),
+		subscriptions: subscriptions,
 	}
 
 	srv.registerRoutes()
@@ -32,6 +34,6 @@ func (s *Server) Run() error {
 func (s *Server) registerRoutes() {
 	s.engine.GET("/health", health.CheckHandler())
 
-	forwardCtr := forward.New(nil)
+	forwardCtr := forward.New(s.subscriptions)
 	s.engine.POST("/forward/:eventid", forwardCtr.PostHandler())
 }
