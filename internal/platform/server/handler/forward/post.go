@@ -29,7 +29,7 @@ func (ctr *ForwardController) PostHandler() gin.HandlerFunc {
 			}
 		}
 
-		var body map[interface{}]interface{}
+		var body interface{}
 
 		if err := ctx.BindJSON(&body); err != nil {
 			ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
