@@ -2,7 +2,3 @@
 
 "server.host": "localhost"
 "server.port": 8989
-
-"subscriptions":
-  "created":
-    - "http://localhost:8080/"
